@@ -41277,7 +41277,7 @@ CREATE TABLE [dbo].[OBCD](
 	[BcdEntry] [int] NOT NULL,
 	[BcdCode] [nvarchar](254) COLLATE SQL_Latin1_General_CP850_CI_AS NOT NULL,
 	[BcdName] [nvarchar](100) COLLATE SQL_Latin1_General_CP850_CI_AS NULL,
-	[ItemCode] [nvarchar](20) COLLATE SQL_Latin1_General_CP850_CI_AS NOT NULL,
+	[ItemCode] [nvarchar](50) COLLATE SQL_Latin1_General_CP850_CI_AS NOT NULL,
 CONSTRAINT [OBCD_PRIMARY] PRIMARY KEY CLUSTERED 
 (
 	[BcdEntry] ASC
@@ -41300,8 +41300,7 @@ ELSE
 			BEGIN
 				ALTER TABLE [dbo].[OBCD] ADD [BcdCode] [nvarchar](254) COLLATE SQL_Latin1_General_CP850_CI_AS NOT NULL
 			END
-
-
+			
 		IF COL_LENGTH('dbo.OBCD','BcdName') IS NULL
 			BEGIN
 				ALTER TABLE [dbo].[OBCD] ADD [BcdName] [nvarchar](100) COLLATE SQL_Latin1_General_CP850_CI_AS NULL
@@ -41309,12 +41308,18 @@ ELSE
 	
 		IF COL_LENGTH('dbo.OBCD','ItemCode') IS NULL
 			BEGIN
-				ALTER TABLE [dbo].[OBCD] ADD [ItemCode] [nvarchar](20) COLLATE SQL_Latin1_General_CP850_CI_AS NOT NULL
+				ALTER TABLE [dbo].[OBCD] ADD [ItemCode] [nvarchar](50) COLLATE SQL_Latin1_General_CP850_CI_AS NOT NULL
 			END		
-
-					
-										
- END
+		ELSE
+			BEGIN
+				--SE EVALÚA LA LONGITUD
+				IF ISNULL(COL_LENGTH('dbo.OBCD','ItemCode'),0) <> 100
+					BEGIN
+						ALTER TABLE [dbo].[OBCD] ALTER COLUMN [ItemCode] [nvarchar](50) NOT NULL
+					END
+			END
+	
+	END
  			
      /****** Object:  Table [dbo].[@SYS_PDETTRANSPREPA]    Script Date: 12/06/2016 09:43:29 ******/
 --SET ANSI_NULLS ON
