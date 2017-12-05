@@ -35400,7 +35400,7 @@ IF OBJECT_ID('dbo.OBTN') IS NULL
 	BEGIN
 		SET ANSI_PADDING ON
 		CREATE TABLE [dbo].[OBTN](
-			[ItemCode] [nvarchar](20) NOT NULL,
+			[ItemCode] [nvarchar](50) NOT NULL,
 			[SysNumber] [int] NULL,
 			[DistNumber] [nvarchar](36) NULL,
 			[MnfSerial] [nvarchar](36) NULL,
@@ -35433,7 +35433,7 @@ ELSE
 		SET ANSI_PADDING ON
 		IF COL_LENGTH('dbo.OBTN','ItemCode') IS NULL
 			BEGIN
-				ALTER TABLE [dbo].[OBTN] ADD [ItemCode] [nvarchar](20) NOT NULL
+				ALTER TABLE [dbo].[OBTN] ADD [ItemCode] [nvarchar](50) NOT NULL
 			END
 		ELSE
 			BEGIN
@@ -35447,13 +35447,13 @@ ELSE
 				) <> 'nvarchar'
 					BEGIN
 						--MODIFICAR EL TIPO DEL CAMPO
-						ALTER TABLE [dbo].[OBTN] ALTER COLUMN [ItemCode] [nvarchar](20) NOT NULL
+						ALTER TABLE [dbo].[OBTN] ALTER COLUMN [ItemCode] [nvarchar](50) NOT NULL
 					END
 			--SE EVALÚA LA LONGITUD
-				IF ISNULL(COL_LENGTH('dbo.OBTN','ItemCode'),0) <> 40
+				IF ISNULL(COL_LENGTH('dbo.OBTN','ItemCode'),0) <> 100
 					BEGIN
 						--MODIFICAR LA LONGITUD DEL CAMPO
-						ALTER TABLE [dbo].[OBTN] ALTER COLUMN [ItemCode] [nvarchar](20) NOT NULL
+						ALTER TABLE [dbo].[OBTN] ALTER COLUMN [ItemCode] [nvarchar](50) NOT NULL
 					END
 			END
 		IF COL_LENGTH('dbo.OBTN','SysNumber') IS NULL
