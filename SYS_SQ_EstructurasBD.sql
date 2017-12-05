@@ -982,7 +982,7 @@ ELSE
 IF OBJECT_ID('dbo.ITM1') IS NULL
 	BEGIN
 		CREATE TABLE [dbo].[ITM1](
-			[ItemCode] [nvarchar](20) COLLATE SQL_Latin1_General_CP850_CI_AS NOT NULL,
+			[ItemCode] [nvarchar](50) COLLATE SQL_Latin1_General_CP850_CI_AS NOT NULL,
 			[PriceList] [smallint] NOT NULL,
 			[Price] [numeric](19, 6) NULL,
 			[Currency] [nvarchar](3) COLLATE SQL_Latin1_General_CP850_CI_AS NULL,
@@ -1010,7 +1010,16 @@ ELSE
 	BEGIN
 		IF COL_LENGTH('dbo.ITM1','ItemCode') IS NULL
 			BEGIN
-				ALTER TABLE [dbo].[ITM1] ADD [ItemCode] [nvarchar](20) COLLATE SQL_Latin1_General_CP850_CI_AS NOT NULL
+				ALTER TABLE [dbo].[ITM1] ADD [ItemCode] [nvarchar](50) COLLATE SQL_Latin1_General_CP850_CI_AS NOT NULL
+			END
+		ELSE
+			BEGIN
+				--SE EVALÚA LA LONGITUD
+				IF ISNULL(COL_LENGTH('dbo.ITM1','ItemCode'),0) <> 100
+					BEGIN
+						ALTER TABLE [dbo].[ITM1] DROP CONSTRAINT [ITM1_PRIMARY]
+						ALTER TABLE [dbo].[ITM1] ALTER COLUMN [ItemCode] [nvarchar](50) NOT NULL
+					END
 			END
 		IF COL_LENGTH('dbo.ITM1','PriceList') IS NULL
 			BEGIN
