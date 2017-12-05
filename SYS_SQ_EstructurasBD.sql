@@ -36920,7 +36920,7 @@ IF OBJECT_ID('dbo.ITL1') IS NULL
 	BEGIN
 		CREATE TABLE [dbo].[ITL1](
 			[LogEntry] [int] NOT NULL,
-			[ItemCode] [nvarchar](20) NOT NULL,
+			[ItemCode] [nvarchar](50) NOT NULL,
 			[SysNumber] [int] NOT NULL,
 			[Quantity] [numeric](19, 6) NULL,
 			[AllocQty] [numeric](19, 6) NULL,
@@ -36941,7 +36941,16 @@ ELSE
 			END
 		IF COL_LENGTH('dbo.ITL1','ItemCode') IS NULL
 			BEGIN
-				ALTER TABLE [dbo].[ITL1] ADD [ItemCode] [nvarchar](20) NOT NULL
+				ALTER TABLE [dbo].[ITL1] ADD [ItemCode] [nvarchar](50) NOT NULL
+			END
+		ELSE
+			BEGIN
+				--SE EVALÚA LA LONGITUD
+				IF ISNULL(COL_LENGTH('dbo.ITL1','ItemCode'),0) <> 100
+					BEGIN
+						ALTER TABLE [dbo].[ITL1] DROP CONSTRAINT [ITL1_PRIMARY]
+						ALTER TABLE [dbo].[ITL1] ALTER COLUMN [ItemCode] [nvarchar](50) NOT NULL
+					END
 			END
 		IF COL_LENGTH('dbo.ITL1','SysNumber') IS NULL
 			BEGIN
