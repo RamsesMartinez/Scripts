@@ -36103,7 +36103,7 @@ ELSE
 IF OBJECT_ID('dbo.OBTQ') IS NULL
 	BEGIN
 		CREATE TABLE [dbo].[OBTQ](
-			[ItemCode] [nvarchar](20) NOT NULL,
+			[ItemCode] [nvarchar](50) NOT NULL,
 			[SysNumber] [int] NULL,
 			[WhsCode] [nvarchar](8) NOT NULL,
 			[Quantity] [numeric](19, 6) NULL,
@@ -36121,7 +36121,7 @@ ELSE
 	BEGIN
 		IF COL_LENGTH('dbo.OBTQ','ItemCode') IS NULL
 			BEGIN
-				ALTER TABLE [dbo].[OBTQ] ADD [ItemCode] [nvarchar](20) NOT NULL
+				ALTER TABLE [dbo].[OBTQ] ADD [ItemCode] [nvarchar](50) NOT NULL
 			END
 		ELSE
 			BEGIN
@@ -36135,13 +36135,13 @@ ELSE
 				) <> 'nvarchar'
 					BEGIN
 						--MODIFICAR EL TIPO DEL CAMPO
-						ALTER TABLE [dbo].[OBTQ] ALTER COLUMN [ItemCode] [nvarchar](20) NOT NULL
+						ALTER TABLE [dbo].[OBTQ] ALTER COLUMN [ItemCode] [nvarchar](50) NOT NULL
 					END
 			--SE EVALÚA LA LONGITUD
-				IF ISNULL(COL_LENGTH('dbo.OBTQ','ItemCode'),0) <> 40
+				IF ISNULL(COL_LENGTH('dbo.OBTQ','ItemCode'),0) <> 100
 					BEGIN
 						--MODIFICAR LA LONGITUD DEL CAMPO
-						ALTER TABLE [dbo].[OBTQ] ALTER COLUMN [ItemCode] [nvarchar](20) NOT NULL
+						ALTER TABLE [dbo].[OBTQ] ALTER COLUMN [ItemCode] [nvarchar](50) NOT NULL
 					END
 			END
 		IF COL_LENGTH('dbo.OBTQ','SysNumber') IS NULL
