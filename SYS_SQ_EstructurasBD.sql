@@ -1014,6 +1014,18 @@ ELSE
 			END
 		ELSE
 			BEGIN
+				--SE EVALÚA EL TIPO DE DATOS
+				IF
+				(SELECT 
+					DATA_TYPE
+				FROM INFORMATION_SCHEMA.COLUMNS
+				WHERE TABLE_NAME = 'ITM1' AND COLUMN_NAME = 'ItemCode'
+				AND TABLE_SCHEMA = @sEsquema AND TABLE_CATALOG = @sBase
+				) <> 'nvarchar'
+					BEGIN
+						--MODIFICAR EL TIPO DEL CAMPO
+						ALTER TABLE [dbo].[ITM1] ALTER COLUMN [ItemCode] [nvarchar](50) NOT NULL
+					END
 				--SE EVALÚA LA LONGITUD
 				IF ISNULL(COL_LENGTH('dbo.ITM1','ItemCode'),0) <> 100
 					BEGIN
