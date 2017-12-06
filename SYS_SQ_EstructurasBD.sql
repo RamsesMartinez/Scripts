@@ -36332,7 +36332,7 @@ IF OBJECT_ID('dbo.OITL') IS NULL
 		CREATE TABLE [dbo].[OITL](
 			[LogEntry] [int] NOT NULL,
 			[TransId] [int] NULL,
-			[ItemCode] [nvarchar](20) NULL,
+			[ItemCode] [nvarchar](50) NULL,
 			[ItemName] [nvarchar](100) NULL,
 			[ManagedBy] [int] NULL CONSTRAINT [DF_OITL_ManagedBy]  DEFAULT ((4)),
 			[DocEntry] [int] NULL,
@@ -36408,7 +36408,7 @@ ELSE
 			END
 		IF COL_LENGTH('dbo.OITL','ItemCode') IS NULL
 			BEGIN
-				ALTER TABLE [dbo].[OITL] ADD [ItemCode] [nvarchar](20) NULL
+				ALTER TABLE [dbo].[OITL] ADD [ItemCode] [nvarchar](50) NULL
 			END
 		ELSE
 			BEGIN
@@ -36422,13 +36422,13 @@ ELSE
 				) <> 'nvarchar'
 					BEGIN
 						--MODIFICAR EL TIPO DEL CAMPO
-						ALTER TABLE [dbo].[OITL] ALTER COLUMN [ItemCode] [nvarchar](20) NULL
+						ALTER TABLE [dbo].[OITL] ALTER COLUMN [ItemCode] [nvarchar](50) NULL
 					END
 			--SE EVALÚA LA LONGITUD
-				IF ISNULL(COL_LENGTH('dbo.OITL','ItemCode'),0) <> 40
+				IF ISNULL(COL_LENGTH('dbo.OITL','ItemCode'),0) <> 100
 					BEGIN
 						--MODIFICAR LA LONGITUD DEL CAMPO
-						ALTER TABLE [dbo].[OITL] ALTER COLUMN [ItemCode] [nvarchar](20) NULL
+						ALTER TABLE [dbo].[OITL] ALTER COLUMN [ItemCode] [nvarchar](50) NULL
 					END
 			END
 		IF COL_LENGTH('dbo.OITL','ItemName') IS NULL
