@@ -8014,7 +8014,7 @@ ELSE
 IF OBJECT_ID('dbo.OITW') IS NULL
 	BEGIN
 		CREATE TABLE [dbo].[OITW](
-			[ItemCode] [nvarchar](20) COLLATE SQL_Latin1_General_CP850_CI_AS NOT NULL,
+			[ItemCode] [nvarchar](50) COLLATE SQL_Latin1_General_CP850_CI_AS NOT NULL,
 			[WhsCode] [nvarchar](8) COLLATE SQL_Latin1_General_CP850_CI_AS NOT NULL,
 			[OnHand] [numeric](19, 6) NULL,
 			[IsCommited] [numeric](19, 6) NULL,
@@ -8041,7 +8041,31 @@ ELSE
 	BEGIN
 		IF COL_LENGTH('dbo.OITW','ItemCode') IS NULL
 			BEGIN
-				ALTER TABLE [dbo].[OITW] ADD [ItemCode] [nvarchar](20) COLLATE SQL_Latin1_General_CP850_CI_AS NOT NULL
+				ALTER TABLE [dbo].[OITW] ADD [ItemCode] [nvarchar](50) COLLATE SQL_Latin1_General_CP850_CI_AS NOT NULL
+			END
+		ELSE
+			BEGIN
+				--SE EVALÚA EL TIPO DE DATOS
+				IF
+				(SELECT 
+					DATA_TYPE
+				FROM INFORMATION_SCHEMA.COLUMNS
+				WHERE TABLE_NAME = 'OITW' AND COLUMN_NAME = 'ItemCode'
+				AND TABLE_SCHEMA = @sEsquema AND TABLE_CATALOG = @sBase
+				) <> 'nvarchar'
+					BEGIN
+						--MODIFICAR EL TIPO DEL CAMPO
+						ALTER TABLE [dbo].[OITW] DROP CONSTRAINT [OITW_PRIMARY]
+						ALTER TABLE [dbo].[OITW] ALTER COLUMN [ItemCode] [nvarchar](50) COLLATE SQL_Latin1_General_CP850_CI_AS NOT NULL
+					END
+				
+				--SE EVALÚA LA LONGITUD
+				IF ISNULL(COL_LENGTH('dbo.OITW','ItemCode'),0) <> 100
+					BEGIN
+						--MODIFICAR LA LONGITUD DEL CAMPO
+						ALTER TABLE [dbo].[OITW] DROP CONSTRAINT [OITW_PRIMARY]
+						ALTER TABLE [dbo].[OITW] ALTER COLUMN [ItemCode] [nvarchar](50) COLLATE SQL_Latin1_General_CP850_CI_AS NOT NULL
+					END
 			END
 		IF COL_LENGTH('dbo.OITW','WhsCode') IS NULL
 			BEGIN
@@ -15716,6 +15740,7 @@ ELSE
 				--SE EVALÚA LA LONGITUD
 				IF ISNULL(COL_LENGTH('dbo.OITM','ItemCode'),0) <> 100
 					BEGIN
+						--MODIFICAR LA LONGITUD DEL CAMPO
 						ALTER TABLE [dbo].[OITM] DROP CONSTRAINT [OITM_PRIMARY]
 						ALTER TABLE [dbo].[OITM] ALTER COLUMN [ItemCode] [nvarchar](50) COLLATE SQL_Latin1_General_CP850_CI_AS NOT NULL
 					END
