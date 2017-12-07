@@ -1234,7 +1234,7 @@ ELSE
 IF OBJECT_ID('dbo.@SYS_PFORMASPAGO') IS NULL
 	BEGIN
 		CREATE TABLE [dbo].[@SYS_PFORMASPAGO](
-			[Code] [nvarchar](30) COLLATE SQL_Latin1_General_CP850_CI_AS NOT NULL,
+			[Code] [nvarchar](50) COLLATE SQL_Latin1_General_CP850_CI_AS NOT NULL,
 			[Name] [nvarchar](100) COLLATE SQL_Latin1_General_CP850_CI_AS NULL,
 			[DocEntry] [int] NOT NULL,
 			[Canceled] [char](1) COLLATE SQL_Latin1_General_CP850_CI_AS NULL CONSTRAINT [DF_@SYS_PFORMASPAGO_Canceled]  DEFAULT ('N'),
